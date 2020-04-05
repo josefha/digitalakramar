@@ -39,7 +39,8 @@ export default () => {
                 <h1>Digitala Kramar</h1>
                 <h3>Sprid kärlek</h3>
                 <h3>{hugs} har skickats</h3>
-                <h3>{money} har samlats in</h3>
+                <h3>{money} kr har samlats in</h3>
+
                 <Button style={{ maxWidth: '350px', margin: "auto", marginTop: '30px' }} primary label="Skicka en kram <3" onClick={() => sendHug()} />
             </Box>
         </AppWrapper >
