@@ -9,23 +9,35 @@ import { GlobalStateContext, GlobalDispatchContext } from '../../common/context/
 
 
 export default () => {
-    const [name, setName] = React.useState('Anna');
-    const [message, setMessage] = React.useState('');
-    const [fromName, setFromName] = React.useState('Josef');
+    //const [name, setName] = React.useState('');
+    //const [message, setMessage] = React.useState('');
+    //const [fromName, setFromName] = React.useState('');
 
+    const name = "Carolina";
+    const message = "";
+    const fromName = "Carolina"
+    const hugCounter = 100;
+    const hugAmount = 10000;
+    const moneyAmount = 100000;
+
+    const callSmsApi = () => console.log("Skriver ett sms");
+
+    const thisHug = `Just denna kram har spridits sig till ${hugCounter} personer.`
+    const totalHugs = `Totalt har det skickats ${hugAmount} digitala kramar. Och vi har tillsammans samlat in ${moneyAmount} kr för psykisk hälsa.`
 
     return (
         <AppWrapper>
-            <Box justify='center' style={{ margin: 'auto', marginTop: '100px', textAlign: 'center' }}>
-                <h2>{name}</h2>
-                <p>Du har fått en digital kram</p>
+            <Box justify='center' style={{ margin: 'auto', marginTop: '60px', textAlign: 'center', padding: "0 20px" }}>
+                <h1>- små saker gör stor skillnad -</h1>
+                <h2 style={{padding: "0 22px"}}>Du har fått en digital kram</h2>
+                <h1>från {name}</h1>
                 <p>{message}</p>
-                <h3>{fromName}</h3>
-                <p>Denna kram har skickats {hugCounter} gånger</p>
-                <p>Totalt kramar: {hugAmount}</p>
-                <p> {moneyAmount} gånger</p>
+                <div style={{padding: "0 18px", marginTop: "80px"}}>
+                    <p>{thisHug}</p>
+                    <p>{totalHugs}</p>
+                </div>
 
-                <Button style={{ maxWidth: '350px', margin: "auto", marginTop: '30px' }} primary label="Skicka" onClick={() => callSmsApi()} />
+                <Button style={{ maxWidth: '350px', margin: "50px auto 0 auto", fontSize: "15px", padding: "6px 40px", borderRadius: "50px" }} primary label="Skicka kramen vidare" onClick={() => callSmsApi()} />
             </Box>
         </AppWrapper >
     )

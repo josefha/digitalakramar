@@ -11,8 +11,14 @@ module.exports = {
         fonts: [
           {
             family: `Roboto`,
-            variants: [`400`, `700`]
+            variants: [`300`, `400`, `700`]
           },
+          {
+            family: `Sacramento`
+          },
+          {
+            family: `Quicksand`
+          }
         ],
       },
     },
@@ -30,5 +36,13 @@ module.exports = {
         },
       },
     },
+    {
+      resolve: "gatsby-plugin-react-svg",
+      options: {
+        rule: {
+          include: /static/ // See below to configure properly
+        }
+      }
+    }
   ],
 }

@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { Box, Button, Heading, TextInput, Paragraph } from 'grommet';
+import { Box, Button, Heading, TextInput, Paragraph, Grid } from 'grommet';
 import { Apps } from 'grommet-icons';
 import { navigate } from 'gatsby';
 import AppBar from '../../common/components/AppBar'
 import AppWrapper from '../../common/components/AppWrapper'
 import { Context } from '../../common/components/State/Store'
 import { GlobalStateContext, GlobalDispatchContext } from '../../common/context/GlobalContextProvider'
-
+import People from '../../../static/undraw_people_tax5.svg'
 
 export default () => {
     const dispatch = useContext(GlobalDispatchContext);
@@ -32,16 +32,22 @@ export default () => {
         }
         return result;
     }
-
+    const peppTalk = "Ibland är allt man behöver en stor kram";
+    const socialDistance = "Social distansiering gör att många känner sig ensamma i dessa oroliga tider."
+    const amountOfHugs = `Totalt har det skickats ${hugs} digitala kramar. Och vi har tillsammans samlat in ${money} kr för psykisk hälsa.`
+    const effect = "Redo att starta en kedjeeffekt?";
     return (
         <AppWrapper>
-            <Box justify='center' style={{ margin: 'auto', marginTop: '100px', width: '600px', textAlign: 'center' }}>
-                <h1>Digitala Kramar</h1>
-                <h3>Sprid kärlek</h3>
-                <h3>{hugs} har skickats</h3>
-                <h3>{money} kr har samlats in</h3>
-
-                <Button style={{ maxWidth: '350px', margin: "auto", marginTop: '30px' }} primary label="Skicka en kram <3" onClick={() => sendHug()} />
+            <Box justify='center' style={{ margin: 'auto', marginTop: '60px', width: '600px', textAlign: 'center', padding: '0px 44px'}}>
+                <h1>- sprid lite glädje -</h1>
+                <h2>{peppTalk}</h2>
+                <h3>{socialDistance}</h3>
+                <h3 style={{color:"#F26E6E"}}>{amountOfHugs}</h3>
+                <div style={{display: "flex", marginBottom: "30px"}}>
+                    <People style={{width: "50%", height: "50%", margin: "auto"}}/>
+                </div>
+                <p style={{fontSize: "15px",textTransform: "uppercase", margin: "0 -20px"}}>{effect}</p>
+                <Button style={{ maxWidth: '350px', margin: "auto", marginTop: '10px', fontSize: "15px"}} primary label="Skicka en digital kram" onClick={() => sendHug()} />
             </Box>
         </AppWrapper >
     )
