@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Box, Button, Heading, TextInput, Paragraph } from 'grommet';
 import { Apps } from 'grommet-icons';
 import { navigate } from 'gatsby';
@@ -6,19 +6,47 @@ import AppBar from '../../common/components/AppBar'
 import AppWrapper from '../../common/components/AppWrapper'
 import { Context } from '../../common/components/State/Store'
 import { GlobalStateContext, GlobalDispatchContext } from '../../common/context/GlobalContextProvider'
-
+import { FirebaseContext } from "gatsby-plugin-firebase"
 
 export default () => {
-    //const [name, setName] = React.useState('');
-    //const [message, setMessage] = React.useState('');
-    //const [fromName, setFromName] = React.useState('');
+    const DB_HUGS_COUNTER = 'hug_counter'
+    const firebase = useContext(FirebaseContext)
 
-    const name = "Carolina";
-    const message = "";
-    const fromName = "Carolina"
-    const hugCounter = 100;
+    const [name, setName] = useState('Carolina');
+    const [fromName, setFromName] = useState('Carolina');
+
+    const [hugCounter, setHugCounter] = useState(100);
+
     const hugAmount = 10000;
     const moneyAmount = 100000;
+
+
+    useEffect(() => {
+        if (!firebase) {
+            return
+        }
+        ListenOnDbValue(DB_HUGS_COUNTER)
+    }, [firebase])
+
+
+    const ListenOnDbValue = (name) => {
+        var inboxRef = firebase.database().ref(name);
+        inboxRef.on('value', function (snapshot) {
+            setHugCounter(snapshot.val());
+        });
+    }
+
+    const updateDbValue = (name) => {
+        var inboxRef = firebase.database().ref(name);
+
+        let key = firebase.database().ref().child(name).push().key;
+
+        let data = 0
+        let updates = {};
+        updates['/hub_counter/'] = data;
+
+        firebase.database().ref().update(updates);
+    }
 
     const callSmsApi = () => console.log("Skriver ett sms");
 
@@ -29,10 +57,10 @@ export default () => {
         <AppWrapper>
             <Box justify='center' style={{ margin: 'auto', marginTop: '60px', textAlign: 'center', padding: "0 20px" }}>
                 <h1>- små saker gör stor skillnad -</h1>
-                <h2 style={{padding: "0 22px"}}>Du har fått en digital kram</h2>
+                <h2 style={{ padding: "0 22px" }}>Du har fått en digital kram</h2>
                 <h1>från {name}</h1>
-                <p>{message}</p>
-                <div style={{padding: "0 18px", marginTop: "80px"}}>
+                <p></p>
+                <div style={{ padding: "0 18px", marginTop: "80px" }}>
                     <p>{thisHug}</p>
                     <p>{totalHugs}</p>
                 </div>
