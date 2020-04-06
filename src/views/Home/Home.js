@@ -47,7 +47,7 @@ export default () => {
                     <People style={{width: "50%", height: "50%", margin: "auto"}}/>
                 </div>
                 <p style={{fontSize: "15px",textTransform: "uppercase", margin: "0 -20px"}}>{effect}</p>
-                <Button style={{ maxWidth: '350px', margin: "auto", marginTop: '10px', fontSize: "15px"}} primary label="Skicka en digital kram" onClick={() => sendHug()} />
+                {false && <Button style={{ maxWidth: '350px', margin: "auto", marginTop: '10px', fontSize: "15px"}} primary label="Skicka en digital kram" onClick={() => sendHug()} /> }
             </Box>
         </AppWrapper >
     )
