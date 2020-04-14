@@ -12,14 +12,14 @@ Create two enviroments files in root folder named:
 
 `npm install`
 
-### run development
-gatsby develop 
+## run development
+`gatsby develop`
 * Go to local http://localhost:8000/
 
 ### Firebase console (needs invitation)(But not needed to run project)
 https://console.firebase.google.com/project/digitalakramar/
 
-### Build:
+## Build:
 To build release package: `Gatsby build`
 
 To test build on http://localhost:8000/: `Gatsby serve`
