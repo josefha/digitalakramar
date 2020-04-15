@@ -14,7 +14,7 @@
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "dependencies": {
-    "firebase": "^7.9.2",
+    "firebase": "^7.14.0",
     "gatsby": "^2.19.7",
     "gatsby-plugin-firebase": "^0.1.8",
     "gatsby-plugin-prefetch-google-fonts": "^1.4.3",
