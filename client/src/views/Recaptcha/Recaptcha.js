@@ -1,7 +1,29 @@
 import React from 'react';
+import Recaptcha from 'react-recaptcha';
 
-export default () => {
+export default () => <Recaptcha 
+                        sitekey="6LdI_OsUAAAAALtivrS9HcR-sd1bcBbjoTv1tlzh" 
+                        render="explicit"
+                        verifyCallback={dataCallback} 
+                        expiredCallback={dataExpiredCallback} 
+                        onloadCallback={callback}/>
 
+function dataCallback(response) {
+    console.log("dataCallback", response)
+    window.location.href = "/checkRecaptcha?response=" + encodeURIComponent(response)
+}
+function dataExpiredCallback() {
+    console.log("dataExpiredCallback")
+}
+
+var callback = function () {
+    console.log('Done!!!!');
+};
+
+
+/*{
+
+    /*
     function dataCallback(response) {
         console.log("dataCallback", response)
         window.location.href = "/checkRecaptcha?response=" + encodeURIComponent(response)
@@ -23,4 +45,5 @@ export default () => {
             </body>
         </html>
     )
-} 
+    
+} */

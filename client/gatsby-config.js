@@ -52,6 +52,14 @@ module.exports = {
           include: /static/ // See below to configure properly
         }
       }
-    }
+    },
+    {
+      resolve: `gatsby-plugin-recaptcha`,
+      options: {
+         async: true,
+         defer: false,
+         args: `?render=explicit`,//args: `?onload=onloadCallback&render=explicit`,
+      },
+   },
   ],
 }
