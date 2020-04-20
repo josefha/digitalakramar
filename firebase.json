@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "public": "client/public",
+    "rewrites": [
+      {
+        "source": "/hello",
+        "function": "helloWorld"
+      },
+      {
+        "source": "/checkRecaptcha",
+        "function": "checkRecaptcha"
+      }
+    ],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
