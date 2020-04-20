@@ -1,8 +1,8 @@
 # digitalkram.se
 
-# For Client: in /client folder
-## Setup
-Create two enviroments files in client folder named:
+## For Client: in /client folder
+### Setup
+Create two enviroments files in this folder named:
 `.env.develop`
 `.env.production`
 
@@ -13,26 +13,26 @@ Create two enviroments files in client folder named:
 
 `npm install`
 
-## run development
+### run development
 `gatsby develop`
 * Go to local http://localhost:8000/
 
-## Build:
+### Build:
 To build release package: `Gatsby build`
 
 To test build on http://localhost:8000/: `Gatsby serve`
 
 
 
-# For Functions: in /functions folder
-## Setup
-Add this line in firebase CLI
+## For Functions: in /functions folder
+### Setup
+* ask for recaptcha secret
+Run this line in firebase CLI
 `firebase functions:config:set recaptcha.secret="RECAPTCHA_SECRET"`
 
-* ask for recaptcha secret
 
-# Firebase
-## Firebase console (needs invitation)(But not needed to run project)
+## Firebase
+### Firebase console (needs invitation)(But not needed to run project)
 https://console.firebase.google.com/project/digitalakramar/
 
 ## Release Build 
