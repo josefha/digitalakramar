@@ -5,12 +5,8 @@ export default (props) => {
 
     const dataCallback = (response) => {
         
-        if(response.success){
-            console.log("dataCallback", response)
-            props.setVerified(true)
-        }
-        //props.setVerified(true)
-
+        console.log("dataCallback", response)
+        
         const http = new XMLHttpRequest();
 
         const url = '/checkRecaptcha';
@@ -19,14 +15,15 @@ export default (props) => {
         http.open("GET", url + '?' + params);
         http.onreadystatechange = function()
             {   
-                if(http.readyState == 4 && http.status == 200) {
+                if(http.readyState === 4 && http.status === 200) {
                     console.log(http);
-                    alert(http.responseText);
+                    //alert(http.responseText);
+                    props.setVerified(true)
                 }
             }
         http.send(); 
         //console.log("dataCallback", response)
-        window.location.href = "https://us-central1-digitalakramar.cloudfunctions.net/checkRecaptcha?response=" + encodeURIComponent(response)
+        //window.location.href = "https://us-central1-digitalakramar.cloudfunctions.net/checkRecaptcha?response=" + encodeURIComponent(response)
     }
     const dataExpiredCallback = () => {
         console.log("dataExpiredCallback")

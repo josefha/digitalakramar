@@ -17,7 +17,7 @@ export default () => {
     const [number, setNumber] = useState('');
     const [money, setMoney] = useState('');
 
-    const [yourName, setYourName] = useState('');
+    //const [yourName, setYourName] = useState('');
     const [isVerified, setVerified] = useState(false);
 
     return (
@@ -47,6 +47,7 @@ export default () => {
                 {!isVerified && <p>I am not isVerified</p>}
                 {isVerified && <p>I am Verified</p>}
                 <Button style={{ maxWidth: '350px', margin: "auto", marginTop: '30px' }} primary label="Skicka" onClick={() => {}} />
+                <Friend />
             </Box>
         </AppWrapper >
     )

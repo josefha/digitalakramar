@@ -1,16 +1,13 @@
 import React, { useState, useContext } from 'react';
-import { Box, Button, Heading, TextInput, Paragraph, Grid } from 'grommet';
-import { Apps } from 'grommet-icons';
+import { Box, Button} from 'grommet';
 import { navigate } from 'gatsby';
-import AppBar from '../../common/components/AppBar'
 import AppWrapper from '../../common/components/AppWrapper'
-import { Context } from '../../common/components/State/Store'
-import { GlobalStateContext, GlobalDispatchContext } from '../../common/context/GlobalContextProvider'
+import { GlobalDispatchContext } from '../../common/context/GlobalContextProvider'
 import People from '../../../static/undraw_people_tax5.svg'
 
 export default () => {
     const dispatch = useContext(GlobalDispatchContext);
-    const [code, setCode] = useState("");
+    //const [code, setCode] = useState("");
     const [hugs, setHugs] = useState(0);
     const [money, setMoney] = useState(0);
 
