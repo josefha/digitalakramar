@@ -20,6 +20,10 @@ export default () => {
     //const [yourName, setYourName] = useState('');
     const [isVerified, setVerified] = useState(false);
 
+    const handleOnClick = () => {
+        window.location.href = "https://us-central1-digitalakramar.cloudfunctions.net/sendSms"
+    }
+
     return (
         <AppWrapper>
             <Box justify='center' style={{ margin: 'auto', marginTop: '100px', textAlign: 'center' }}>
@@ -46,7 +50,7 @@ export default () => {
                 <Recaptcha setVerified={setVerified}/>
                 {!isVerified && <p>I am not isVerified</p>}
                 {isVerified && <p>I am Verified</p>}
-                <Button style={{ maxWidth: '350px', margin: "auto", marginTop: '30px' }} primary label="Skicka" onClick={() => {}} />
+                <Button style={{ maxWidth: '350px', margin: "auto", marginTop: '30px' }} primary label="Skicka" onClick={handleOnClick} />
                 <Friend />
             </Box>
         </AppWrapper >

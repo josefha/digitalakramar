@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const rp = require('request-promise')
+const querystring = require('querystring')
 
  // path: `.env.${process.env.NODE_ENV}`,
 
@@ -36,53 +37,29 @@ exports.checkRecaptcha = functions.https.onRequest((req, res) => {
     })
 })
 
-/*
-const callSmsApi = () => {
-        const https = require('https')
-        const querystring = require('querystring')
+exports.sendSms = functions.https.onRequest((request, response) => {
+    const username = functions.config().elks.username
+    const password = functions.config().elks.password
 
-        const username = process.env.GATSBY_SMS_USERNAME
-        const password = process.env.GATSBY_SMS_PASSWORD
-
-        const postFields = {
-            from: "+46766864403",
-            to: "+46707240529",
-            message: "DIGITAL HUGS SAVE THE WORLD"
-        }
-
-        const key = new Buffer(username + ':' + password).toString('base64')
-        const postData = querystring.stringify(postFields)
-
-        const options = {
-            hostname: 'api.46elks.com',
-            path: '/a1/SMS',
-            method: 'POST',
-            headers: {
-                'Authorization': 'Basic ' + key,
-                // 'Access-Control-Allow-Origin:': 'http://localhost:8000/'
-            }
-        }
-
-
-        const callback = (response) => {
-            var str = ''
-            response.on('data', (chunk) => {
-                str += chunk
-            })
-
-            response.on('end', () => {
-                console.log(str)
-            })
-        }
-
-        // Start the web request.
-        var request = https.request(options, callback)
-
-        // Send the real data away to the server.
-        request.write(postData)
-
-        // Finish sending the request.
-        request.end()
-        console.log("sending");
+    const postFields = {
+        from: "+46766864403",
+        to: "+46701653568",
+        message: "DIGITAL HUGS SAVE THE WORLD"
     }
-*/
+
+    const postData = querystring.stringify(postFields)
+
+    rp({
+        uri:'https://' + username + ':' + password + '@api.46elks.com/a1/SMS',
+        method: 'POST',
+        body: postData
+    }).then(result => {
+        if(result.success){
+            response.status(200).send("status 200")
+        } else {
+            response.send("then, but status not 200 " + result)
+        }
+    }).catch(reason => {
+        response.send(reason)
+    })
+})

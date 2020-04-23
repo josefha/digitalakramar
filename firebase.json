@@ -9,6 +9,10 @@
       {
         "source": "/checkRecaptcha",
         "function": "checkRecaptcha"
+      },
+      {
+        "source": "/sendSms",
+        "function": "sendSms"
       }
     ],
     "ignore": [
