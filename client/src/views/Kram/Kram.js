@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Box, Button, Heading, TextInput, Paragraph } from 'grommet';
-import { Apps } from 'grommet-icons';
-import { navigate } from 'gatsby';
-import AppBar from '../../common/components/AppBar'
+import { Box, Button} from 'grommet';
 import AppWrapper from '../../common/components/AppWrapper'
-import { Context } from '../../common/components/State/Store'
-import { GlobalStateContext, GlobalDispatchContext } from '../../common/context/GlobalContextProvider'
 import { FirebaseContext } from "gatsby-plugin-firebase"
 
 export default () => {
@@ -13,13 +8,14 @@ export default () => {
     const firebase = useContext(FirebaseContext)
 
     const [name, setName] = useState('Carolina');
-    const [fromName, setFromName] = useState('Carolina');
+    //const [fromName, setFromName] = useState('Carolina');
 
     const [hugCounter, setHugCounter] = useState(100);
 
     const hugAmount = 10000;
     const moneyAmount = 100000;
 
+    //setName('Carolina')
 
     useEffect(() => {
         if (!firebase) {
@@ -35,11 +31,11 @@ export default () => {
             setHugCounter(snapshot.val());
         });
     }
-
+/*
     const updateDbValue = (name) => {
         var inboxRef = firebase.database().ref(name);
 
-        let key = firebase.database().ref().child(name).push().key;
+        //let key = firebase.database().ref().child(name).push().key;
 
         let data = 0
         let updates = {};
@@ -47,7 +43,7 @@ export default () => {
 
         firebase.database().ref().update(updates);
     }
-
+*/
     const callSmsApi = () => console.log("Skriver ett sms");
 
     const thisHug = `Just denna kram har spridits sig till ${hugCounter} personer.`

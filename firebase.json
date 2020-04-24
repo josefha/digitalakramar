@@ -1,0 +1,24 @@
+{
+  "hosting": {
+    "public": "client/public",
+    "rewrites": [
+      {
+        "source": "/hello",
+        "function": "helloWorld"
+      },
+      {
+        "source": "/checkRecaptcha",
+        "function": "checkRecaptcha"
+      },
+      {
+        "source": "/sendSms",
+        "function": "sendSms"
+      }
+    ],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

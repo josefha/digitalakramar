@@ -1,11 +1,6 @@
-import React, { useState, useContext } from 'react';
-import { Box, Button, Heading, TextInput, Paragraph } from 'grommet';
-import { Apps } from 'grommet-icons';
-import { navigate } from 'gatsby';
-import AppBar from '../../common/components/AppBar'
+import React from 'react';
+import { Box, Button} from 'grommet';
 import AppWrapper from '../../common/components/AppWrapper'
-import { Context } from '../../common/components/State/Store'
-import { GlobalStateContext, GlobalDispatchContext } from '../../common/context/GlobalContextProvider'
 
 
 export default () => {
