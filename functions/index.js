@@ -38,12 +38,13 @@ exports.checkRecaptcha = functions.https.onRequest((req, res) => {
 })
 
 exports.sendSms = functions.https.onRequest((request, response) => {
+    const number = request.query.number
     const username = functions.config().elks.username
     const password = functions.config().elks.password
 
     const postFields = {
-        from: "+46766864403",
-        to: "+46701653568",
+        from: "DigitalKram",
+        to: number,
         message: "DIGITAL HUGS SAVE THE WORLD"
     }
 
@@ -54,12 +55,14 @@ exports.sendSms = functions.https.onRequest((request, response) => {
         method: 'POST',
         body: postData
     }).then(result => {
-        if(result.success){
-            response.status(200).send("status 200")
+        const resultJson = JSON.parse(result)
+        if(resultJson.status.localeCompare("failed") == 0){
+            response.send("Failed.")
         } else {
-            response.send("then, but status not 200 " + result)
+            response.send("SMS is sent!")
         }
+        console.log(result)
     }).catch(reason => {
-        response.send(reason)
+        response.send("Error: " + reason)
     })
 })

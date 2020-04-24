@@ -21,7 +21,20 @@ export default () => {
     const [isVerified, setVerified] = useState(false);
 
     const handleOnClick = () => {
-        window.location.href = "https://us-central1-digitalakramar.cloudfunctions.net/sendSms"
+        const http = new XMLHttpRequest();
+
+        const url = '/sendSms';
+        // TODO: hantera 0 i början av nummret
+        const params = 'number=' + "+46" + number;
+
+        http.open("GET", url + '?' + params);
+        http.onreadystatechange = function()
+            {   
+                if(http.readyState === 4 && http.status === 200) {
+                    console.log(http);
+                }
+            }
+        http.send(); 
     }
 
     return (
