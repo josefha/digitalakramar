@@ -20,11 +20,16 @@ export default props => {
         color: '#F26E6E'
       },
       color: 'white'
+    },
+    textInput: {
+      extend: () => `
+        background: #F1F1F1;
+      `
     }
   };
-
+//themeMode='dark'
   return (
-    <Grommet theme={theme} themeMode='dark'>
+    <Grommet theme={theme} >
       <Box fill {...props}></Box>
     </Grommet>
   );
