@@ -4,6 +4,8 @@ import { navigate } from 'gatsby';
 import AppWrapper from '../../common/components/AppWrapper';
 import People from '../../../static/undraw_people_tax5.svg';
 
+import './home.scss';
+
 export default () => {
   //const dispatch = useContext(GlobalDispatchContext);
   //const [code, setCode] = useState("");
@@ -62,19 +64,17 @@ export default () => {
           }}>
           {effect}
         </p>
-        {false && (
-          <Button
-            style={{
-              maxWidth: '350px',
-              margin: 'auto',
-              marginTop: '10px',
-              fontSize: '15px'
-            }}
-            primary
-            label='Skicka en digital kram'
-            onClick={() => sendHug()}
-          />
-        )}
+        <Button
+          style={{
+            maxWidth: '350px',
+            margin: 'auto',
+            marginTop: '10px',
+            fontSize: '15px'
+          }}
+          primary
+          label='Skicka en digital kram'
+          onClick={() => sendHug()}
+        />
       </Box>
     </AppWrapper>
   );

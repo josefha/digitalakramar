@@ -12,9 +12,9 @@
     "build-all": "npm run format && npm run eslint && npm run build && npm run serve",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "format": "prettier --write src/**/*.{js,jsx,json,md}",
-    "format-check": "prettier --check src/**/*.{js,jsx,json,md}",
-    "eslint": "npx eslint src/**/*.{js,jsx,md}"
+    "format": "prettier --write src/**/*.{js,jsx,json,md,scss}",
+    "format-check": "prettier --check src/**/*.{js,jsx,json,md,scss}",
+    "eslint": "npm run format && npx eslint src/**/*.{js,jsx,md}"
   },
   "dependencies": {
     "firebase": "^7.14.0",

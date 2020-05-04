@@ -1,5 +1,64 @@
-.skicka-box {
-    margin: auto;
-    margin-top: 100px;
-    text-align: center;
+.send-hug-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  text-align: center;
+
+  padding: 0 70px;
 }
+
+.send-hug-title {
+  margin-bottom: 40px
+}
+
+.friend-row {
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.friend-icon {
+  margin-right: 30px;
+  fill: black;
+  background-size: 64px;
+}
+
+.friend-text-input {
+}
+
+.friend-check-mark {
+  //margin-left: 30px;
+  //background-size: 32px;
+  height: 60px;
+  width: 60px;
+}
+
+.send-hug-button {
+  max-width: 350px;
+  margin: auto;
+  margin-top: 30px;
+}
+
+/*
+070 038 33 73
+function phonenumber(inputtxt)
+{
+  var phoneno = /^\d{10}$/;
+  if((inputtxt.value.match(phoneno))
+        {
+      return true;
+        }
+      else
+        {
+        alert("message");
+        return false;
+        }
+}
+
+const validateMobileNumber = (mobileNumber) => {
+  var phoneNumberRegularExpression = /^\d{10}$/;
+  return phoneNumberRegularExpression.test(mobileNumber)
+}
+
+*/
