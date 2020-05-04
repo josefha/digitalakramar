@@ -5,6 +5,7 @@ require("dotenv").config({
 
 module.exports = {
   plugins: [
+    `gatsby-plugin-sass`,
     {
       resolve: `gatsby-plugin-prefetch-google-fonts`,
       options: {
@@ -13,12 +14,8 @@ module.exports = {
             family: `Roboto`,
             variants: [`300`, `400`, `700`]
           },
-          {
-            family: `Sacramento`
-          },
-          {
-            family: `Quicksand`
-          }
+          { family: `Sacramento` },
+          { family: `Quicksand` }
         ],
       },
     },

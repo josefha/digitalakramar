@@ -1,4 +1,4 @@
-import React from 'react'
-import Recaptcha from "../views/Recaptcha/Recaptcha"
+import React from 'react';
+import Recaptcha from '../views/Recaptcha/Recaptcha';
 
-export default () => <Recaptcha />
+export default () => <Recaptcha />;

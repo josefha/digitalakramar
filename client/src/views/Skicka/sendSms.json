@@ -1,0 +1,4 @@
+{
+  "name": "Testsson",
+  "recievers": [{ "mobileNumber": "12345" }, { "mobileNumber": "56789" }]
+}
