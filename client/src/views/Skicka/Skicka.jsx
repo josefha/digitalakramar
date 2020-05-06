@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Box, Button, TextInput } from 'grommet';
+import axios from 'axios';
+
 import AppWrapper from '../../common/components/AppWrapper';
 import Recaptcha from '../Recaptcha/Recaptcha';
-
 import Friend from './Friend/Friend';
 
 import './skicka.scss';
@@ -13,7 +14,39 @@ export default () => {
 
   const [isVerified, setVerified] = useState(false);
 
+  const numberOfFriends = 2;
+  const friendsNumberRef = Array(numberOfFriends)
+    .fill(0)
+    .map((_, i) => useRef(null));
+  const friendsComponents = Array(numberOfFriends)
+    .fill(0)
+    .map((_, i) => <Friend key={i} numberRef={friendsNumberRef[i]} />);
+
+  window.ref = friendsNumberRef;
+
   const handleOnClick = () => {
+    //const number = listOfFriends[0].mobileNumber.slice(1);
+    //console.log(listOfFriends[0].mobileNumber);
+    const body = {
+      senderName: name,
+      recipients
+    };
+
+    axios
+      .request({
+        url: '/sendSms',
+        method: 'get',
+        params: {
+          number: '+46' + friendsNumberRef[0].mobileNumber
+        }
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => console.log(error));
+  };
+
+  const handleOnClickOld = () => {
     const http = new XMLHttpRequest();
 
     const url = '/sendSms';
@@ -29,21 +62,13 @@ export default () => {
     http.send();
   };
 
-  const friendOne = <Friend />;
-  const friendTwo = <Friend />;
-  const friendThree = <Friend />;
-
   return (
     <AppWrapper>
       <Box className='send-hug-container'>
         <h1 className='send-hug-title'>- ta hand om varandra -</h1>
         <h2>Fyll i namn och telefonnummer</h2>
 
-        <div className='send-hug-friends-container'>
-          {friendOne}
-          {friendTwo}
-          {friendThree}
-        </div>
+        <div className='send-hug-friends-container'>{friendsComponents}</div>
 
         <TextInput
           className='send-hug-text-input'

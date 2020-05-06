@@ -17,6 +17,7 @@
     "eslint": "npm run format && npx eslint src/**/*.{js,jsx,md}"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "firebase": "^7.14.0",
     "gatsby": "^2.19.7",
     "gatsby-plugin-firebase": "^0.1.8",

@@ -27,9 +27,9 @@ export default props => {
       `
     }
   };
-//themeMode='dark'
+  //themeMode='dark'
   return (
-    <Grommet theme={theme} >
+    <Grommet theme={theme}>
       <Box fill {...props}></Box>
     </Grommet>
   );

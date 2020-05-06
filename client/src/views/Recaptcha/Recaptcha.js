@@ -3,7 +3,7 @@ import Recaptcha from 'react-recaptcha';
 
 export default props => {
   const dataCallback = response => {
-    console.log('dataCallback', response);
+    //console.log('dataCallback', response);
 
     const http = new XMLHttpRequest();
 
@@ -13,7 +13,7 @@ export default props => {
     http.open('GET', url + '?' + params);
     http.onreadystatechange = function() {
       if (http.readyState === 4 && http.status === 200) {
-        console.log(http);
+        //console.log(http);
         //alert(http.responseText);
         props.setVerified(true);
       }
