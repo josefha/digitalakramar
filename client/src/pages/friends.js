@@ -1,4 +1,4 @@
-import React from "react"
-import Friends from "../views/Friends/Friends"
+import React from 'react';
+import Friends from '../views/Friends/Friends';
 
-export default () => <Friends />
+export default () => <Friends />;

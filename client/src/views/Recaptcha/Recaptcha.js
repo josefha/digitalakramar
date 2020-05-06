@@ -1,50 +1,45 @@
 import React from 'react';
 import Recaptcha from 'react-recaptcha';
 
-export default (props) => {
+export default props => {
+  const dataCallback = response => {
+    //console.log('dataCallback', response);
 
-    const dataCallback = (response) => {
-        
-        console.log("dataCallback", response)
-        
-        const http = new XMLHttpRequest();
+    const http = new XMLHttpRequest();
 
-        const url = '/checkRecaptcha';
-        const params = 'response=' + encodeURIComponent(response);
+    const url = '/checkRecaptcha';
+    const params = 'response=' + encodeURIComponent(response);
 
-        http.open("GET", url + '?' + params);
-        http.onreadystatechange = function()
-            {   
-                if(http.readyState === 4 && http.status === 200) {
-                    console.log(http);
-                    //alert(http.responseText);
-                    props.setVerified(true)
-                }
-            }
-        http.send(); 
-        //console.log("dataCallback", response)
-        //window.location.href = "https://us-central1-digitalakramar.cloudfunctions.net/checkRecaptcha?response=" + encodeURIComponent(response)
-    }
-    const dataExpiredCallback = () => {
-        console.log("dataExpiredCallback")
-    }
-    
-    const callback = () => {
-        console.log('Done!!!!');
+    http.open('GET', url + '?' + params);
+    http.onreadystatechange = function() {
+      if (http.readyState === 4 && http.status === 200) {
+        //console.log(http);
+        //alert(http.responseText);
+        props.setVerified(true);
+      }
     };
+    http.send();
+    //console.log("dataCallback", response)
+    //window.location.href = "https://us-central1-digitalakramar.cloudfunctions.net/checkRecaptcha?response=" + encodeURIComponent(response)
+  };
+  const dataExpiredCallback = () => {
+    console.log('dataExpiredCallback');
+  };
 
-    return(
-        <Recaptcha 
-            sitekey="6LdI_OsUAAAAALtivrS9HcR-sd1bcBbjoTv1tlzh" 
-            render="explicit"
-            verifyCallback={dataCallback} 
-            expiredCallback={dataExpiredCallback} 
-            onloadCallback={callback}/> 
-    )
-}
+  const callback = () => {
+    console.log('Done!!!!');
+  };
 
-
-
+  return (
+    <Recaptcha
+      sitekey='6LdI_OsUAAAAALtivrS9HcR-sd1bcBbjoTv1tlzh'
+      render='explicit'
+      verifyCallback={dataCallback}
+      expiredCallback={dataExpiredCallback}
+      onloadCallback={callback}
+    />
+  );
+};
 
 /*{
 

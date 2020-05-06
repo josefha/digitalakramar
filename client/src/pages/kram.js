@@ -1,4 +1,4 @@
-import React from "react"
-import Kram from "../views/Kram/Kram";
+import React from 'react';
+import Kram from '../views/Kram/Kram';
 
-export default () => <Kram />
+export default () => <Kram />;

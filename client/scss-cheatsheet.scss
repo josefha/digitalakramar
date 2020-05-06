@@ -1,0 +1,41 @@
+// Your main Sass file@import 'file';
+@import 'anotherFile';
+
+.class {
+    // Your code
+}
+
+
+$box-width: 200px;     // changed from 100px to 200px
+$box-height: 200px;    // that's all
+
+.box-1 {
+   width: $box-width;  // using variables now instead of pixels
+   height: $box-height;
+   background: red; 
+}
+
+.box-2 {
+   width: $box-width;
+   height: $box-height;
+   background: yellow; 
+}
+
+
+$color: gray;
+
+@mixin my-font($color) {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: $color;
+  }
+  
+body {
+    background: $color;
+    margin: 0;
+    @include my-font(white);
+  }
+
+  
+ //"trailingComma": "es5",
+ //"format": "prettier --write \"**/*.{js,jsx,json,md}\"",

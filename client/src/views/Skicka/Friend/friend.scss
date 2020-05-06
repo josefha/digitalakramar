@@ -1,0 +1,30 @@
+.friend {
+  &-row {
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-icon {
+    flex: none;
+    margin-right: 30px;
+  }
+
+  &-text-input {
+    max-width: 200px;
+    min-width: 130px;
+  }
+
+  @mixin check-box {
+    height: 60px;
+    width: 60px;
+  }
+
+  &-check-mark {
+    @include check-box;
+    &-placeholder {
+      @include check-box;
+    }
+  }
+}
