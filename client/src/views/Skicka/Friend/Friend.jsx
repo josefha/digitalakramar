@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextInput } from 'grommet';
 import HeadIcon from '../../../../static/head-icon.svg';
 import CheckMark from '../../../../static/check-mark.svg';
@@ -10,9 +10,16 @@ const validateMobileNumber = mobileNumber => {
   return mobileNumberRegularExpression.test(mobileNumber);
 };
 
-export default () => {
+export default ({ numberRef }) => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [mobileNumberValidated, setMobileNumberValidated] = useState(false);
+
+  useEffect(() => {
+    numberRef.current = {
+      mobileNumber: mobileNumber,
+      validated: mobileNumberValidated
+    };
+  }, [mobileNumber, mobileNumberValidated]);
 
   const handleMobileInput = input => {
     if (validateMobileNumber(input)) {
