@@ -13,12 +13,12 @@
       {
         "source": "/sendSms",
         "function": "sendSms"
+      },
+      {
+        "source": "/getHugger",
+        "function": "getHugger"
       }
     ],
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
 }

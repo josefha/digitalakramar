@@ -73,7 +73,7 @@ export default () => {
           }}
           primary
           label='Skicka en digital kram'
-          onClick={() => sendHug()}
+          onClick={() => {} /*() => sendHug()*/}
         />
       </Box>
     </AppWrapper>
