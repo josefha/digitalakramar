@@ -13,6 +13,10 @@
       {
         "source": "/sendSms",
         "function": "sendSms"
+      },
+      {
+        "source": "/swishPayment",
+        "function": "swishPayment"
       }
     ],
     "ignore": [
