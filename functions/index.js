@@ -1,112 +1,116 @@
-const functions = require('firebase-functions');
-const rp = require('request-promise')
-const querystring = require('querystring')
+const functions = require("firebase-functions");
+const rp = require("request-promise");
+const querystring = require("querystring");
 
- // path: `.env.${process.env.NODE_ENV}`,
+// path: `.env.${process.env.NODE_ENV}`,
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
-    response.send("Hello from Firebase!");
+  response.send("Hello from Firebase!");
 });
 
 exports.checkRecaptcha = functions.https.onRequest((req, res) => {
-    const response = req.query.response
-    console.log("recaptcha response", response)
-    rp({
-        uri: 'https://recaptcha.google.com/recaptcha/api/siteverify',
-        method: 'POST',
-        formData: {
-            secret: functions.config().recaptcha.secret,
-            response: response
-        },
-        json: true
-    }).then(result => {
-        console.log("recaptcha result", result)
-        if (result.success) {
-            res.status(200).send("You're good to go, human.")
-        }
-        else {
-            res.status(401).send("Recaptcha verification failed. Are you a robot?")
-        }
-    }).catch(reason => {
-        console.log("Recaptcha request failure", reason)
-        res.status(500).send("Recaptcha request failed.")
+  const response = req.query.response;
+  console.log("recaptcha response", response);
+  rp({
+    uri: "https://recaptcha.google.com/recaptcha/api/siteverify",
+    method: "POST",
+    formData: {
+      secret: functions.config().recaptcha.secret,
+      response: response,
+    },
+    json: true,
+  })
+    .then((result) => {
+      console.log("recaptcha result", result);
+      if (result.success) {
+        res.status(200).send("You're good to go, human.");
+      } else {
+        res.status(401).send("Recaptcha verification failed. Are you a robot?");
+      }
     })
-})
+    .catch((reason) => {
+      console.log("Recaptcha request failure", reason);
+      res.status(500).send("Recaptcha request failed.");
+    });
+});
 
 exports.sendSms = functions.https.onRequest((request, response) => {
-    const number = request.query.number
-    const username = functions.config().elks.username
-    const password = functions.config().elks.password
+  const number = request.query.number;
+  const username = functions.config().elks.username;
+  const password = functions.config().elks.password;
 
-    const postFields = {
-        from: "DigitalKram",
-        to: number,
-        message: "DIGITAL HUGS SAVE THE WORLD"
-    }
+  const postFields = {
+    from: "DigitalKram",
+    to: number,
+    message: "DIGITAL HUGS SAVE THE WORLD",
+  };
 
-    const postData = querystring.stringify(postFields)
+  const postData = querystring.stringify(postFields);
 
-    rp({
-        uri:'https://' + username + ':' + password + '@api.46elks.com/a1/SMS',
-        method: 'POST',
-        body: postData
-    }).then(result => {
-        const resultJson = JSON.parse(result)
-        if(resultJson.status.localeCompare("failed") == 0){
-            response.send("Failed.")
-        } else {
-            response.send("SMS is sent!")
-        }
-        console.log(result)
-    }).catch(reason => {
-        response.send("Error: " + reason)
+  rp({
+    uri: "https://" + username + ":" + password + "@api.46elks.com/a1/SMS",
+    method: "POST",
+    body: postData,
+  })
+    .then((result) => {
+      const resultJson = JSON.parse(result);
+      if (resultJson.status.localeCompare("failed") == 0) {
+        response.send("Failed.");
+      } else {
+        response.send("SMS is sent!");
+      }
+      console.log(result);
     })
-})
+    .catch((reason) => {
+      response.send("Error: " + reason);
+    });
+});
 
 exports.swishPayment = functions.https.onRequest((request, response) => {
-    console.log("in swish payment function")
-    const number = request.query.number
-    // const amount = request.query.amount
-    const amount = 1
+  console.log("in swish payment function");
+  const number = request.query.number;
+  // const amount = request.query.amount
+  const amount = 1;
 
-    const testConfig = {	
-        payeeAlias: "1231181189",
-        host: "https://mss.cpc.getswish.net/swish-cpcapi",
-        cert: path.resolve(__dirname, 'ssl/test.pem'),
-        key: path.resolve(__dirname, 'ssl/test.key'),
-        ca: path.resolve(__dirname, 'ssl/test_ca.pem'),
-    }
-    
-    const config = testConfig
+  // functions.config().elks.username
+  const testConfig = {
+    payeeAlias: "1231181189",
+    host: "https://mss.cpc.getswish.net/swish-cpcapi",
+    cert: functions.config().swish.test_pem,
+    key: functions.config().swish.test_key,
+    ca: functions.config().swish.testca,
+  };
 
-    const postFields = {
-        payeePaymentReference: "0123456789",
-		callbackUrl: "https://webhook.site/a8f9b5c2-f2da-4bb8-8181-fcb84a6659ea",
-		payeeAlias: config.payeeAlias,
-		payerAlias: number,
-		amount: amount,
-		currency: "SEK"
-    }
+  const config = testConfig;
 
-    const postData = querystring.stringify(postFields)
-
-    rp({
-        uri:  config.host + '/api/v1/paymentrequests',
-        method: 'POST',
-        body: postData
-    }).then(result => {
-        const resultJson = JSON.parse(result)
-        if(resultJson.status.localeCompare("failed") == 0){
-            response.send("Failed.")
-        } else {
-            response.send("Succeed")
-        }
-        console.log(result)
-    }).catch(reason => {
-        response.send("Error: " + reason)
+  const postFields = {
+    payeePaymentReference: "0123456789",
+    callbackUrl: "https://webhook.site/a8f9b5c2-f2da-4bb8-8181-fcb84a6659ea",
+    payeeAlias: config.payeeAlias,
+    payerAlias: number,
+    amount: amount,
+    currency: "SEK",
+  };
+  const postData = querystring.stringify(postFields);
+  rp({
+    uri: config.host + "/api/v1/paymentrequests",
+    method: "POST",
+    body: postData,
+  })
+    .then((result) => {
+      const resultJson = JSON.parse(result);
+      if (resultJson.status.localeCompare("failed") == 0) {
+        response.send("Failed.");
+      } else {
+        response.send("Succeed");
+      }
+      console.log(result);
     })
-})
+    .catch((reason) => {
+      response.send("Error: " + reason);
+    });
+});
