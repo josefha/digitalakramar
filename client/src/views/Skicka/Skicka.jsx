@@ -23,7 +23,9 @@ export default () => {
     .fill(0)
     .map((_, i) => <Friend key={i} numberRef={friendsNumberRef[i]} />);
 
-  //window.ref = friendsNumberRef;
+  if (typeof window != 'undefined') {
+    window.ref = friendsNumberRef;
+  }
 
   const handleOnClick = () => {
     const friendsNumbers = friendsNumberRef
