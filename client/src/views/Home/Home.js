@@ -11,8 +11,8 @@ export default () => {
   //const [code, setCode] = useState("");
   //const [hugs, setHugs] = useState(0);
   //const [money, setMoney] = useState(0);
-  const hugs = 347056;
-  const money = 27680;
+  const hugs = 0;
+  const money = 0;
 
   const sendHug = () => {
     navigate('/skicka');
@@ -73,7 +73,7 @@ export default () => {
           }}
           primary
           label='Skicka en digital kram'
-          onClick={() => sendHug()}
+          onClick={() => {} /*() => sendHug()*/}
         />
       </Box>
     </AppWrapper>

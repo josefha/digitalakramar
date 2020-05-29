@@ -15,14 +15,14 @@
         "function": "sendSms"
       },
       {
+        "source": "/getHugger",
+        "function": "getHugger"
+      },
+      {
         "source": "/swishPayment",
         "function": "swishPayment"
       }
     ],
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
 }

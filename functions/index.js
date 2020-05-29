@@ -1,7 +1,3 @@
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-
 const swish = require("./api/swish");
 exports.swishPayment = swish.swishPayment;
 

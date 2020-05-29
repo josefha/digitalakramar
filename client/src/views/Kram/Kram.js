@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import { Box, Button } from 'grommet';
 import AppWrapper from '../../common/components/AppWrapper';
 import { FirebaseContext } from 'gatsby-plugin-firebase';
@@ -16,13 +17,34 @@ export default () => {
   const moneyAmount = 100000;
 
   //setName('Carolina')
-
+  /*
   useEffect(() => {
     if (!firebase) {
       return;
     }
     ListenOnDbValue(DB_HUGS_COUNTER);
   }, [firebase]);
+*/
+  useEffect(() => {
+    const location = window.location;
+    const hugHash = location.href.split('?h=')[1];
+    const huggerName = '';
+    const body = { shortHash: 'm1KZVz-m0' };
+    axios
+      .request({
+        url: '/getHugger',
+        method: 'POST',
+        data: body || {}
+      })
+      .then(response => {
+        console.log('Response:', response);
+        if (response.data && response.data.huggerName)
+          huggerName = response.data.huggerName;
+      })
+      .catch(error => console.log('Error:', error));
+
+    const hugger = console.log('Lite hughash för den som vill ' + huggerName);
+  }, []);
 
   const ListenOnDbValue = name => {
     var inboxRef = firebase.database().ref(name);
