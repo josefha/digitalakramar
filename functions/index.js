@@ -6,3 +6,7 @@ exports.sendSms = elk.sendSms;
 
 const recaptcha = require("./api/recaptcha");
 exports.checkRecaptcha = recaptcha.checkRecaptcha;
+
+const firestore = require("./api/firestore");
+exports.getHugger = firestore.getHugger;
+exports.sendSms = firestore.sendSms;

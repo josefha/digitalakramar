@@ -21,24 +21,28 @@ exports.dataBaseTest = functions.https.onRequest((request, response) => {
     response.send(`Retrieved data: ${JSON.stringify(data)}`);
   });
 });
-
+/*
+{
+    "shortID": "FghWE32fe"
+}
+*/
 exports.getHugger = functions.https.onRequest((request, response) => {
   db = admin.firestore();
-  let huggerName = "";
-  if (request.body && request.body.shortHash) {
-    db.collection("recievers")
-      .where("shortHash", "==", request.body.shortHash)
+  if (request.body && request.body.shortID) {
+    db.collection("hugs")
+      .doc(request.body.shortID)
       .get()
-      .then((querySnapshot) => {
-        if (querySnapshot.docs[0].exists) {
-          const data = querySnapshot.docs[0].data();
-          huggerName = data.huggers[0];
-          response.send({ huggerName: huggerName });
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          const data = snapshot.data();
+          if (data.name) response.send({ huggerName: data.name });
+        } else {
+          response.status(404).send("Hug doesn't exist");
         }
       })
       .catch((error) => {
-        response.send("Error in finding request");
         console.log("Error occured:" + error);
+        response.send("Error in finding request");
       });
   } else {
     response.send("Wrong request information");
@@ -58,26 +62,24 @@ exports.createReciever = functions.https.onRequest((request, response) => {
 
     const searchingForUniqueID = true;
     let i = 5;
-    while (searchingForUniqueID && i < 5) {
-      db.collection("recievers")
-        .where("shortHash", "==", shortHash)
+    while (searchingForUniqueID) {
+      db.collection("hugs")
+        .doc(shortHash)
         .get()
-        .then((querySnapshot) => {
-          if (querySnapshot.docs[0].exists)
-            shortHash = shortid.generate(number);
+        .then((snapshot) => {
+          if (snapshot.exists) shortHash = shortid.generate(number);
           else searchingForUniqueID = false;
         })
         .catch((error) => {
           console.log("Error occured:" + error);
         });
       console.log("While loop");
-      i += 1;
     }
 
     db.collection("recievers")
       .doc()
       .set({
-        huggers: ["Robert", "Josef"],
+        hugs: ["Robert", "Josef"],
         shortHash: shortHash,
         longHash: numberHash,
         stopSendingSms: false,
@@ -147,69 +149,104 @@ exports.stopSms = functions.https.onRequest((request, response) => {
 });
 
 exports.sendSms = functions.https.onRequest((request, response) => {
-  const createNewReciever = (numberHash) => {
-    db.collection("recievers");
-    console.log("Got into the create function");
+  const createNewReciever = (numberHash, shortID) => {
+    console.log("Created new reciever");
+    db.collection("recievers")
+      .doc()
+      .set({
+        longHash: numberHash,
+        hugs: [shortID],
+        stopSendingSms: false,
+      });
   };
-  const validatedRequestBody = (body) => {
-    return body && body.recievers && body.senderName;
-  };
+  const validatedRequestBody = (body) =>
+    body && body.recievers && body.senderName;
 
   if (!validatedRequestBody(request.body)) {
     response.send("Cloud function sendSms getting wrong data");
     return;
   }
-
+  const searchForUniqueID = (senderName) => {
+    const shortHash = shortid.generate(senderName);
+    const searchingForUniqueID = true;
+    let i = 5;
+    while (searchingForUniqueID && i < 5) {
+      console.log("searchingForUniqueID, shortHash:" + shortHash);
+      db.collection("hugs")
+        .doc(shortHash)
+        .get()
+        .then((snapshot) => {
+          if (snapshot.exists) shortHash = shortid.generate(senderName);
+          else searchingForUniqueID = false;
+        })
+        .catch((error) => {
+          console.log("Error occured in searchingForUniqueID:" + error);
+        });
+      i += 1;
+    }
+    return shortHash;
+  };
   // Setup for firestore and elks api service
   db = admin.firestore();
   const username = functions.config().elks.username;
   const password = functions.config().elks.password;
-
+  const senderName = request.body.senderName;
   /*
     "senderName": "Robert",
     "recievers": ["+46700383373"]
   */
-  //const statusRecievers = [{ index: -1, reason: "schema" }];
+
+  const shortID = searchForUniqueID(senderName);
+  db.collection("hugs").doc(shortID).set({ name: senderName });
 
   request.body.recievers.forEach((number, i) => {
-    console.log("Entered the array");
+    let friendInfo = "Info: ";
     const numberHash = crypto
       .createHash("sha256")
       .update(number)
       .digest("base64");
 
-    //  const recieverReference =
     db.collection("recievers")
-      .where("mobileNumberHash", "==", "34GH35")
+      .where("longHash", "==", numberHash)
       .get()
-      .then((allSnapshots) => {
-        allSnapshots.forEach((snapshot) => {
-          response.send(`End of function: ${JSON.stringify(snapshot.data())}`);
-        });
+      .then((querySnapshots) => {
+        if (querySnapshots.size == 0) {
+          createNewReciever(numberHash, shortID);
+          friendInfo += "Created - ";
+        } else {
+          const recieverSnapshot = querySnapshots.docs[0];
+          if (recieverSnapshot && recieverSnapshot.exists) {
+            let data = recieverSnapshot.data();
+            const newHugs = data.hugs;
+            newHugs.push(shortID);
+            console.log(`Document found with name '${recieverSnapshot.id}'`);
+
+            db.collection("recievers")
+              .doc(recieverSnapshot.id)
+              .update({ hugs: newHugs });
+            friendInfo += "Updated - ";
+
+            console.log(`After update: ${JSON.stringify(data)}`);
+            /*
+            response.send(
+              `Updated existing reciever: ${JSON.stringify(newHugs)}`
+            );
+            */
+
+            // Check if reciever doesn't want sms
+            if (data.stopSendingSms) {
+              friendInfo += " Does not want SMS";
+              //statusRecievers.push({ index: i, reason: "Doesn't want Sms" });
+              return;
+            } else {
+              // Send sms to reciever
+            }
+            // Add hug to reciever doc
+          }
+        }
+      })
+      .catch((error) => {
+        console.log("Erorr catched" + error);
       });
   });
-
-  console.log("After reference" + recieverReference);
-
-  recieverReference
-    .get()
-    .then((recieverSnapshot) => {
-      if (recieverSnapshot.empty) createNewReciever(numberHash);
-      if (recieverSnapshot.exists) {
-        let data = recieverSnapshot.data();
-        console.log(`After stopsms: ${JSON.stringify(data)}`);
-        // Check if reciever doesn't want sms
-        if (data.stopSms) {
-          //statusRecievers.push({ index: i, reason: "Doesn't want Sms" });
-          return;
-        }
-        response.send("Inside the array");
-        // Add  request.body.senderName to array of huggers
-      }
-
-      // Send sms to the reciever
-    })
-    .catch((error) => {
-      console.log("Error recieving" + error);
-    });
 });
