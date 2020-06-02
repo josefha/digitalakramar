@@ -132,20 +132,26 @@ exports.createReciever = functions.https.onRequest((request, response) => {
 
 exports.stopSms = functions.https.onRequest((request, response) => {
   //This function will stop sms towards a specific phone number,
-  //it is activated from the link a
-
   db = admin.firestore();
 
-  const documentReference = db.doc("recievers/hashnumber1");
-
-  documentReference.get().then((documentSnapshot) => {
-    if (documentSnapshot.exists) {
-      let data = documentSnapshot.data();
-      console.log(`Retrieved data: ${JSON.stringify(data)}`);
-    }
-
-    response.send("Checking back" + documentSnapshot);
-  });
+  if (request.body && request.body.shortID) {
+    db.collection("recievers")
+      .where("hugs", "array_contains", shortID)
+      .get()
+      .then((querySnapshots) => {
+        if (querySnapshots.size > 0) {
+          const recieverSnapshot = querySnapshots.docs[0];
+          if (recieverSnapshot && recieverSnapshot.exists) {
+            db.collection("recievers")
+              .doc(recieverSnapshot.id)
+              .update({ stopSendingSms: true });
+          }
+        }
+      })
+      .catch((error) => {
+        response.send("error:" + error);
+      });
+  }
 });
 
 exports.sendSms = functions.https.onRequest((request, response) => {
@@ -192,12 +198,16 @@ exports.sendSms = functions.https.onRequest((request, response) => {
   const password = functions.config().elks.password;
   const senderName = request.body.senderName;
   /*
+    {
     "senderName": "Robert",
     "recievers": ["+46700383373"]
-  */
+    }
 
-  const shortID = searchForUniqueID(senderName);
-  db.collection("hugs").doc(shortID).set({ name: senderName });
+    {
+    "senderName": "Josef",
+    "recievers": ["+46700383373", "+46700383372"]
+    }
+  */
 
   request.body.recievers.forEach((number, i) => {
     let friendInfo = "Info: ";
@@ -205,6 +215,11 @@ exports.sendSms = functions.https.onRequest((request, response) => {
       .createHash("sha256")
       .update(number)
       .digest("base64");
+
+    // gör dessa enskilda per reciever så varje hug kan länkas mot en reciever.
+    // det hjälper vid stoppa sms
+    const shortID = searchForUniqueID(senderName);
+    db.collection("hugs").doc(shortID).set({ name: senderName });
 
     db.collection("recievers")
       .where("longHash", "==", numberHash)
@@ -249,4 +264,5 @@ exports.sendSms = functions.https.onRequest((request, response) => {
         console.log("Erorr catched" + error);
       });
   });
+  response.send("Done with function");
 });
